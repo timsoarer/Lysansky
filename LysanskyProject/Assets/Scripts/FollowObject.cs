@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FollowCharacter : MonoBehaviour
+public class FollowObject : MonoBehaviour
 {
     public Transform characterCapsule;
     public float distance = 10.0f;
@@ -17,6 +17,11 @@ public class FollowCharacter : MonoBehaviour
     public float maxDistance = 20.0f;
 
     public float rotationSmoothing = 5.0f;
+
+    [HideInInspector]
+    public bool InCutscene = false;
+    [HideInInspector]
+    public Vector3 cutscenePosition = Vector3.zero;
 
     void LateUpdate()
     {
@@ -46,7 +51,15 @@ public class FollowCharacter : MonoBehaviour
                 distance = Mathf.Clamp(distance - scroll * zoomSpeed, minDistance, maxDistance);
             }
 
-            Vector3 targetPosition = characterCapsule.position + Quaternion.Euler(verticalAngle, horizontalAngle, 0) * new Vector3(0, height, -distance);
+            Vector3 targetPosition;
+            if (InCutscene)
+            {
+                targetPosition = cutscenePosition;
+            }
+            else
+            {
+                targetPosition = characterCapsule.position + Quaternion.Euler(verticalAngle, horizontalAngle, 0) * new Vector3(0, height, -distance);
+            }
             //transform.position = targetPosition;
             transform.position = Vector3.Slerp(transform.position, targetPosition, rotationSmoothing * Time.deltaTime);
             transform.LookAt(characterCapsule);

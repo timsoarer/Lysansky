@@ -14,6 +14,9 @@ public class Movement : MonoBehaviour
     private Rigidbody _rb;
     private CapsuleCollider _collider;
 
+    [HideInInspector]
+    public bool AllowMovement = true;
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -27,9 +30,12 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        JumpLogic();
-        MoveLogic();
-        RotateTowardsCursor();
+        if (AllowMovement)
+        {
+            JumpLogic();
+            MoveLogic();
+            RotateTowardsCursor();
+        }
     }
 
 
@@ -42,7 +48,7 @@ public class Movement : MonoBehaviour
         Quaternion cameraDirRotation = Quaternion.LookRotation(transform.position - cameraDirPosition);
 
         Vector3 movement = cameraDirRotation * Vector3.right * horizontal + cameraDirRotation * Vector3.forward * vertical;
-
+        
         _rb.AddForce(movement * Speed, ForceMode.VelocityChange);
     }
 

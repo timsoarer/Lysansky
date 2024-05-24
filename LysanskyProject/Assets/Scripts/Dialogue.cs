@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct DialogueLine {
+public struct DialogueLine
+{
     public string speaker;
     [Multiline(4)]
     public string speech;
