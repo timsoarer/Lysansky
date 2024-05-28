@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using Unity.VisualScripting;
 
 public class FollowObject : MonoBehaviour
 {
@@ -22,6 +25,15 @@ public class FollowObject : MonoBehaviour
     public bool InCutscene = false;
     [HideInInspector]
     public Vector3 cutscenePosition = Vector3.zero;
+
+    // void Start () {
+    //     List<AudioListener> objectsInScene = new List<AudioListener>();
+
+    //     foreach (AudioListener go in Resources.FindObjectsOfTypeAll(typeof(AudioListener)) as AudioListener[])
+    //     {
+    //         Debug.LogWarning(go.gameObject.name);
+    //     }
+    // }
 
     void LateUpdate()
     {
