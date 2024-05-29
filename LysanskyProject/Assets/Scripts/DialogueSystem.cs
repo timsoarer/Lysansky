@@ -4,12 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+[RequireComponent(typeof(FollowObject))]
+[RequireComponent(typeof(InventorySystem))]
 public class DialogueSystem : MonoBehaviour
 {
-    public Movement playerMover;
-    public FollowObject cameraMover;
+    private Movement playerMover;
+    private FollowObject cameraMover;
+    private InventorySystem playerInventory;
     public Dialogue exampleDialogue;
-    public Vector3 exampleAngle;
+    public Transform exampleAngle;
     public GameObject dialogueBox;
     public TextMeshProUGUI dialogueText;
     public TextMeshProUGUI nameText;
@@ -21,6 +24,9 @@ public class DialogueSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cameraMover = GetComponent<FollowObject>();
+        playerMover = cameraMover.characterCapsule.gameObject.GetComponent<Movement>();
+        playerInventory = GetComponent<InventorySystem>();
         StartDialogue(exampleDialogue, exampleAngle);
     }
 
@@ -45,7 +51,7 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
-    public void StartDialogue(Dialogue d, Vector3 cameraAngle)
+    public void StartDialogue(Dialogue d, Transform cameraAngle = null)
     {
         playerMover.AllowMovement = false;
         cameraMover.InCutscene = true;
@@ -61,9 +67,29 @@ public class DialogueSystem : MonoBehaviour
 
     void EndDialogue()
     {
-        playerMover.AllowMovement = true;
-        cameraMover.InCutscene = false;
-        inDialogue = false;
-        dialogueBox.SetActive(false);
+        if (currentDialogue.giveItem != null && currentDialogue.giveAmount > 0)
+        {
+            playerInventory.GiveItem(currentDialogue.giveItem, currentDialogue.giveAmount);
+        }
+        if (currentDialogue.teleportPlayer)
+        {
+            playerMover.gameObject.GetComponent<Transform>().position = currentDialogue.teleportPosition;
+        }
+        
+        if (currentDialogue.continuationDialogue != null)
+        {
+            currentDialogue = currentDialogue.continuationDialogue;
+            dialoguePosition = 0;
+
+            dialogueText.text = currentDialogue.dialogue[0].speech;
+            nameText.text = currentDialogue.dialogue[0].speaker;
+        }
+        else
+        {
+            playerMover.AllowMovement = true;
+            cameraMover.InCutscene = false;
+            inDialogue = false;
+            dialogueBox.SetActive(false);
+        }
     }
 }

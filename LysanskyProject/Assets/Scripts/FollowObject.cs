@@ -24,7 +24,7 @@ public class FollowObject : MonoBehaviour
     [HideInInspector]
     public bool InCutscene = false;
     [HideInInspector]
-    public Vector3 cutscenePosition = Vector3.zero;
+    public Transform cutscenePosition = null;
 
     // void Start () {
     //     List<AudioListener> objectsInScene = new List<AudioListener>();
@@ -39,42 +39,48 @@ public class FollowObject : MonoBehaviour
     {
         if (characterCapsule != null)
         {
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (!InCutscene)
             {
-                horizontalAngle -= rotationSpeed * Time.deltaTime;
-            }
-            else if (Input.GetKey(KeyCode.RightArrow))
-            {
-                horizontalAngle += rotationSpeed * Time.deltaTime;
-            }
+                if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    horizontalAngle -= rotationSpeed * Time.deltaTime;
+                }
+                else if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    horizontalAngle += rotationSpeed * Time.deltaTime;
+                }
 
-            // if (Input.GetKey(KeyCode.UpArrow))
-            // {
-            //     verticalAngle = Mathf.Clamp(verticalAngle + rotationSpeed * Time.deltaTime, minVerticalAngle, maxVerticalAngle);
-            // }
-            // else if (Input.GetKey(KeyCode.DownArrow))
-            // {
-            //     verticalAngle = Mathf.Clamp(verticalAngle - rotationSpeed * Time.deltaTime, minVerticalAngle, maxVerticalAngle);
-            // }
+                // if (Input.GetKey(KeyCode.UpArrow))
+                // {
+                //     verticalAngle = Mathf.Clamp(verticalAngle + rotationSpeed * Time.deltaTime, minVerticalAngle, maxVerticalAngle);
+                // }
+                // else if (Input.GetKey(KeyCode.DownArrow))
+                // {
+                //     verticalAngle = Mathf.Clamp(verticalAngle - rotationSpeed * Time.deltaTime, minVerticalAngle, maxVerticalAngle);
+                // }
 
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (scroll != 0)
-            {
-                distance = Mathf.Clamp(distance - scroll * zoomSpeed, minDistance, maxDistance);
+                float scroll = Input.GetAxis("Mouse ScrollWheel");
+                if (scroll != 0)
+                {
+                    distance = Mathf.Clamp(distance - scroll * zoomSpeed, minDistance, maxDistance);
+                }
             }
-
+            
             Vector3 targetPosition;
-            if (InCutscene)
+            if (InCutscene && cutscenePosition != null)
             {
-                targetPosition = cutscenePosition;
+                targetPosition = cutscenePosition.position;
+                transform.rotation = Quaternion.Slerp(transform.rotation, cutscenePosition.rotation, rotationSmoothing * Time.deltaTime);
             }
             else
             {
                 targetPosition = characterCapsule.position + Quaternion.Euler(verticalAngle, horizontalAngle, 0) * new Vector3(0, height, -distance);
+                //transform.LookAt(characterCapsule);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(characterCapsule.position - transform.position), rotationSmoothing * Time.deltaTime);
             }
             //transform.position = targetPosition;
             transform.position = Vector3.Slerp(transform.position, targetPosition, rotationSmoothing * Time.deltaTime);
-            transform.LookAt(characterCapsule);
+            
         }
     }
 }
