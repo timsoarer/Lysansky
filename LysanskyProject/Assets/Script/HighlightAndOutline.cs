@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Outline))]
 public class HighlightAndOutline : MonoBehaviour
 {
     private Renderer rend;

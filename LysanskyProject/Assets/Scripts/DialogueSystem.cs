@@ -51,6 +51,7 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
+    
     public void StartDialogue(Dialogue d, Transform cameraAngle = null)
     {
         playerMover.AllowMovement = false;
@@ -59,6 +60,7 @@ public class DialogueSystem : MonoBehaviour
         inDialogue = true;
         currentDialogue = d;
         dialoguePosition = 0;
+        playerInventory.showUI = false;
 
         dialogueBox.SetActive(true);
         dialogueText.text = currentDialogue.dialogue[0].speech;
@@ -90,6 +92,7 @@ public class DialogueSystem : MonoBehaviour
             cameraMover.InCutscene = false;
             inDialogue = false;
             dialogueBox.SetActive(false);
+            playerInventory.showUI = true;
         }
     }
 }

@@ -42,6 +42,8 @@ public class InventorySystem : MonoBehaviour
     public float scrollCooldown;
     float scrollTimer = 10.0f;
     public AudioSource scrollAudio;
+    public bool showUI = true;
+    public GameObject inventoryHUD;
 
     private void UpdateHUD() {
         for (short i = 0; i < hudImages.Length; i++)
@@ -126,24 +128,37 @@ public class InventorySystem : MonoBehaviour
         GiveItem(pills, 24);
     }
 
-    void Update() {
-        if (scrollTimer <= scrollCooldown)
+    void Update()
+    {
+        if (showUI)
         {
-            scrollTimer += Time.deltaTime;
-        }
+            if (!inventoryHUD.activeSelf) {
+                inventoryHUD.SetActive(true);
+            }
+            if (scrollTimer <= scrollCooldown)
+            {
+                scrollTimer += Time.deltaTime;
+            }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            scrollTimer = 0.0f;
-            selected--;
-            UpdateHUD();
-            scrollAudio.Play();
-        }
+            if (Input.GetKeyDown(KeyCode.UpArrow)) {
+                scrollTimer = 0.0f;
+                selected--;
+                UpdateHUD();
+                scrollAudio.Play();
+            }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            scrollTimer = 0.0f;
-            selected++;
-            UpdateHUD();
-            scrollAudio.Play();
+            if (Input.GetKeyDown(KeyCode.DownArrow)) {
+                scrollTimer = 0.0f;
+                selected++;
+                UpdateHUD();
+                scrollAudio.Play();
+            }
+        }
+        else
+        {
+            if (inventoryHUD.activeSelf) {
+                inventoryHUD.SetActive(false);
+            }
         }
     }
 }
