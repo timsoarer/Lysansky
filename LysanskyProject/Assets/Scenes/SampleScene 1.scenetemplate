@@ -19,13 +19,17 @@ MonoBehaviour:
   dependencies:
   - dependency: {fileID: 919132149155446097, guid: 88776203ca081ac4ba5df574364bdafd, type: 3}
     instantiationMode: 0
+  - dependency: {fileID: 11400000, guid: 6eb44b4c40226bf4da7e23e440f73dbd, type: 2}
+    instantiationMode: 1
   - dependency: {fileID: 919132149155446097, guid: ddd36401006c8654eae1d9a6bcd6380d, type: 3}
     instantiationMode: 0
   - dependency: {fileID: 2100000, guid: 685f4bb233db285479d826b469325367, type: 2}
     instantiationMode: 0
-  - dependency: {fileID: 919132149155446097, guid: ac41480a091ee2446a41d386b366ae44, type: 3}
-    instantiationMode: 0
   - dependency: {fileID: 2100000, guid: d563981371a71064a87f6f96cb9ee35b, type: 2}
+    instantiationMode: 0
+  - dependency: {fileID: 2800000, guid: 5b0822bf472db814dbec77516cf839a2, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 919132149155446097, guid: ac41480a091ee2446a41d386b366ae44, type: 3}
     instantiationMode: 0
   - dependency: {fileID: 919132149155446097, guid: e23244823e5d2f04bb4384dbcbd539d1, type: 3}
     instantiationMode: 0
@@ -36,8 +40,6 @@ MonoBehaviour:
   - dependency: {fileID: 2800000, guid: 2fd6421f253b4ef1a19526541f9ffc0c, type: 3}
     instantiationMode: 1
   - dependency: {fileID: 919132149155446097, guid: b0ba9b7cecd675b45894beca57389899, type: 3}
-    instantiationMode: 0
-  - dependency: {fileID: 2800000, guid: 5b0822bf472db814dbec77516cf839a2, type: 3}
     instantiationMode: 0
   - dependency: {fileID: 919132149155446097, guid: ec2d07344bd74ac4c998dc2e78381b08, type: 3}
     instantiationMode: 0
@@ -120,8 +122,6 @@ MonoBehaviour:
   - dependency: {fileID: 11400000, guid: 7a98e597369bf56439a1c0cb83ffd007, type: 2}
     instantiationMode: 1
   - dependency: {fileID: 11400000, guid: 2ea2277fc6aab7642b99c1e0c73eec34, type: 2}
-    instantiationMode: 1
-  - dependency: {fileID: 11400000, guid: 7e5333f65f7b9c84fa7f444b9a778a92, type: 2}
     instantiationMode: 1
   - dependency: {fileID: 919132149155446097, guid: b18d8f111249cfe49b3f726a7a66161b, type: 3}
     instantiationMode: 0
