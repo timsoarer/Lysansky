@@ -6,11 +6,13 @@ using TMPro;
 
 [RequireComponent(typeof(FollowObject))]
 [RequireComponent(typeof(InventorySystem))]
+[RequireComponent(typeof(QuestSystem))]
 public class DialogueSystem : MonoBehaviour
 {
     private Movement playerMover;
     private FollowObject cameraMover;
     private InventorySystem playerInventory;
+    private QuestSystem questSystem;
     public Dialogue exampleDialogue;
     public Transform exampleAngle;
     public GameObject dialogueBox;
@@ -27,6 +29,7 @@ public class DialogueSystem : MonoBehaviour
         cameraMover = GetComponent<FollowObject>();
         playerMover = cameraMover.characterCapsule.gameObject.GetComponent<Movement>();
         playerInventory = GetComponent<InventorySystem>();
+        questSystem = GetComponent<QuestSystem>();
         StartDialogue(exampleDialogue, exampleAngle);
     }
 
@@ -76,6 +79,24 @@ public class DialogueSystem : MonoBehaviour
         if (currentDialogue.teleportPlayer)
         {
             playerMover.gameObject.GetComponent<Transform>().position = currentDialogue.teleportPosition;
+        }
+
+        foreach (QuestGiving questGiveParams in currentDialogue.givenQuests)
+        {
+            if (questGiveParams.showQuest)
+            {
+                questSystem.ShowQuest(questGiveParams.questID);
+            }
+
+            if (questGiveParams.hideIfComplete)
+            {
+                questSystem.HideQuestIfComplete(questGiveParams.questID);
+            }
+
+            if (questGiveParams.addPoints != 0)
+            {
+                questSystem.AddPoints(questGiveParams.questID, questGiveParams.addPoints);
+            }
         }
         
         if (currentDialogue.continuationDialogue != null)

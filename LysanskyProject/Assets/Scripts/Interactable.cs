@@ -5,34 +5,58 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+[Serializable]
+public enum InteractType {None, Teleport, Quest, Shop, Talk};
+
+[Serializable]
 public struct Interaction {
     public bool questRequired;
     public ushort questID;
+    public InteractType interactType;
+
+    [Header("Teleport")]
+    public Vector3 teleportLocation;
+
+    [Header("Talk")]
+    public Dialogue dialogue;
+    public Transform cameraAngle;
+
+    [Header("Quest")]
+    public QuestGiving[] giveQuests;
 }
 
 [RequireComponent(typeof(Outline))]
 public class Interactable : MonoBehaviour
 {   
-    [Serializable]
-    public enum InteractType {None, Teleport, Quest, Shop, Talk};
+    
     [Header("Basic Properties")]
     public string interactText = "Имя объекта";
     public bool destroyOnInteract = false;
-    public InteractType interactType;
     public float minInteractionRange = 15.0f;
     public GameObject tooltipPrefab;
     public Vector3 tooltipOffset;
-    [Header("Teleport")]
-    public Vector3 teleportLocation;
+
+    public Interaction[] interactionList;
+    private ushort currentInteraction = 0;
 
     private Camera mainCamera;
     private GameObject player;
     private GameObject tooltipInstance;
     private Outline outline;
     private GameObject canvas;
+    private QuestSystem questSystem;
+    private DialogueSystem dialogueSystem;
     
-    bool InRange() {
-        return Vector3.Distance(transform.position, player.transform.position) <= minInteractionRange;
+    bool CanInteract() {
+        bool closeEnough = Vector3.Distance(transform.position, player.transform.position) <= minInteractionRange;
+        bool hasType = interactionList[currentInteraction].interactType != InteractType.None;
+        return closeEnough && hasType;
+    }
+
+    bool RequirementsMet (ushort interactionID) {
+        ushort reqP = questSystem.quests[interactionList[interactionID].questID].requiredPoints;
+        ushort curP = questSystem.quests[interactionList[interactionID].questID].currentPoints;
+        return !interactionList[interactionID].questRequired || (curP >= reqP);
     }
     
     // Start is called before the first frame update
@@ -43,23 +67,35 @@ public class Interactable : MonoBehaviour
         canvas = GameObject.Find("Canvas");
         mainCamera = Camera.main;
         player = mainCamera.gameObject.GetComponent<FollowObject>().characterCapsule.gameObject;
+        questSystem = mainCamera.gameObject.GetComponent<QuestSystem>();
+        dialogueSystem = mainCamera.gameObject.GetComponent<DialogueSystem>();
     }
 
     void Update ()
     {
-
+        if (currentInteraction < interactionList.Length - 1)
+        {
+            if (RequirementsMet((ushort)(currentInteraction + 1)))
+            {
+                currentInteraction++;
+            }
+        }
     }
 
     void Interact() {
-        if (interactType == InteractType.Teleport)
+        if (interactionList[currentInteraction].interactType == InteractType.Teleport)
         {
-            player.transform.position = teleportLocation;
+            player.transform.position = interactionList[currentInteraction].teleportLocation;
+        }
+        else if (interactionList[currentInteraction].interactType == InteractType.Talk)
+        {
+            dialogueSystem.StartDialogue(interactionList[currentInteraction].dialogue, interactionList[currentInteraction].cameraAngle);
         }
     }
 
     void OnMouseEnter()
     {
-        if (InRange())
+        if (CanInteract())
         {
             outline.enabled = true; // Enable outline effect
             tooltipInstance = Instantiate(tooltipPrefab, canvas.transform);
@@ -69,7 +105,7 @@ public class Interactable : MonoBehaviour
 
     void OnMouseOver()
     {
-        if (InRange())
+        if (CanInteract())
         {
             if (tooltipInstance == null)
             {
@@ -78,7 +114,7 @@ public class Interactable : MonoBehaviour
                 tooltipInstance.GetComponent<TextMeshProUGUI>().text = interactText;
             }
             tooltipInstance.transform.position = mainCamera.WorldToScreenPoint(transform.position + tooltipOffset);
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
             {
                 Interact();
             }

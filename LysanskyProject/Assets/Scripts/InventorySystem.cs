@@ -140,14 +140,14 @@ public class InventorySystem : MonoBehaviour
                 scrollTimer += Time.deltaTime;
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow)) {
+            if (Input.GetKeyDown(KeyCode.UpArrow) && selected > 0) {
                 scrollTimer = 0.0f;
                 selected--;
                 UpdateHUD();
                 scrollAudio.Play();
             }
 
-            if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            if (Input.GetKeyDown(KeyCode.DownArrow) && selected <= inventory.items.Count) {
                 scrollTimer = 0.0f;
                 selected++;
                 UpdateHUD();
