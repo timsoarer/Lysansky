@@ -23,3 +23,8 @@ MonoBehaviour:
   continuationDialogue: {fileID: 0}
   teleportPlayer: 0
   teleportPosition: {x: 0, y: 0, z: 0}
+  givenQuests:
+  - showQuest: 0
+    hideIfComplete: 0
+    questID: 1
+    addPoints: 1

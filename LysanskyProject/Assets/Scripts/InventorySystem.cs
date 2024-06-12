@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
+[Serializable]
 public class InvItem {
     public Item itemType;
     public ushort count;

@@ -14,12 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue:
   - speaker: "\u041B\u0438\u0441\u044F\u043D\u0441\u043A\u0438\u0439"
-    speech: "\u041D\u0435\u0442\u0443 \u0442\u0430\u0431\u043B\u0435\u0442\u043E\u043A
-      \u043E\u0442 \u0433\u043E\u043B\u043E\u0432\u044B, \u0438\u0445 \u0442\u043E\u0436\u0435
-      \u043F\u0440\u0438\u0434\u0451\u0442\u0441\u044F \u043A\u0443\u043F\u0438\u0442\u044C
-      \u0443 \u0442\u043E\u0440\u0433\u043E\u0432\u0446\u0430."
+    speech: "\u041D\u0435\u043F\u043E\u0440\u044F\u0434\u043E\u043A! \u0422\u0443\u0442
+      \u043D\u0435\u0442 \u0442\u0430\u0431\u043B\u0435\u0442\u043E\u043A \u043E\u0442
+      \u0433\u043E\u043B\u043E\u0432\u044B, \u0438\u0445 \u043F\u0440\u0438\u0434\u0451\u0442\u0441\u044F
+      \u043A\u0443\u043F\u0438\u0442\u044C."
   giveItem: {fileID: 0}
   giveAmount: 0
   continuationDialogue: {fileID: 0}
   teleportPlayer: 0
   teleportPosition: {x: 0, y: 0, z: 0}
+  givenQuests:
+  - showQuest: 0
+    hideIfComplete: 0
+    questID: 3
+    addPoints: 1

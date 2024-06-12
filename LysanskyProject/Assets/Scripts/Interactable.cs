@@ -10,8 +10,8 @@ public enum InteractType {None, Teleport, Quest, Shop, Talk};
 
 [Serializable]
 public struct Interaction {
-    public bool questRequired;
-    public ushort questID;
+
+    public ushort[] requiredQuests;
     public InteractType interactType;
 
     [Header("Teleport")]
@@ -54,9 +54,14 @@ public class Interactable : MonoBehaviour
     }
 
     bool RequirementsMet (ushort interactionID) {
-        ushort reqP = questSystem.quests[interactionList[interactionID].questID].requiredPoints;
-        ushort curP = questSystem.quests[interactionList[interactionID].questID].currentPoints;
-        return !interactionList[interactionID].questRequired || (curP >= reqP);
+        foreach (ushort i in interactionList[interactionID].requiredQuests)
+        {
+            if (questSystem.quests[i].currentPoints < questSystem.quests[i].requiredPoints)
+            {
+                return false;
+            }
+        }
+        return true;
     }
     
     // Start is called before the first frame update
@@ -90,6 +95,24 @@ public class Interactable : MonoBehaviour
         else if (interactionList[currentInteraction].interactType == InteractType.Talk)
         {
             dialogueSystem.StartDialogue(interactionList[currentInteraction].dialogue, interactionList[currentInteraction].cameraAngle);
+        }
+        else if (interactionList[currentInteraction].interactType == InteractType.Quest)
+        {
+            foreach (QuestGiving questGiveParams in interactionList[currentInteraction].giveQuests)
+            {
+                questSystem.GiveNewQuests(questGiveParams);
+            }
+        }
+
+        if (destroyOnInteract)
+        {
+            if (tooltipInstance != null)
+            {
+                outline.enabled = false; // Disable outline effect
+                Destroy(tooltipInstance);
+                tooltipInstance = null;
+            }
+            Destroy(gameObject);
         }
     }
 

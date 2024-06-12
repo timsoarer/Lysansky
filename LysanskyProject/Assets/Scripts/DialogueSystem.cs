@@ -83,20 +83,7 @@ public class DialogueSystem : MonoBehaviour
 
         foreach (QuestGiving questGiveParams in currentDialogue.givenQuests)
         {
-            if (questGiveParams.showQuest)
-            {
-                questSystem.ShowQuest(questGiveParams.questID);
-            }
-
-            if (questGiveParams.hideIfComplete)
-            {
-                questSystem.HideQuestIfComplete(questGiveParams.questID);
-            }
-
-            if (questGiveParams.addPoints != 0)
-            {
-                questSystem.AddPoints(questGiveParams.questID, questGiveParams.addPoints);
-            }
+            questSystem.GiveNewQuests(questGiveParams);
         }
         
         if (currentDialogue.continuationDialogue != null)

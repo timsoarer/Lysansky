@@ -36,6 +36,24 @@ public class QuestSystem : MonoBehaviour
         return quests[questID].currentPoints >= quests[questID].requiredPoints;
     }
 
+    public void GiveNewQuests(QuestGiving questGiveParams)
+    {
+        if (questGiveParams.addPoints != 0)
+        {
+            AddPoints(questGiveParams.questID, questGiveParams.addPoints);
+        }
+        
+        if (questGiveParams.showQuest)
+        {
+            ShowQuest(questGiveParams.questID);
+        }
+
+        if (questGiveParams.hideIfComplete)
+        {
+            HideQuestIfComplete(questGiveParams.questID);
+        }
+    }
+
     public void ShowQuest(ushort questID)
     { // Reveal new quests only through this function! Otherwise HUD won't update
         quests[questID].show = true;
