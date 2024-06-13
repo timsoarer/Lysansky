@@ -137,7 +137,7 @@ public class Interactable : MonoBehaviour
                 tooltipInstance.GetComponent<TextMeshProUGUI>().text = interactText;
             }
             tooltipInstance.transform.position = mainCamera.WorldToScreenPoint(transform.position + tooltipOffset);
-            if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
             {
                 Interact();
             }

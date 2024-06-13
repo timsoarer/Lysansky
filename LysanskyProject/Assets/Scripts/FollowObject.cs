@@ -41,11 +41,11 @@ public class FollowObject : MonoBehaviour
         {
             if (!InCutscene)
             {
-                if (Input.GetKey(KeyCode.LeftArrow))
+                if (Input.GetKey(KeyCode.Q))
                 {
                     horizontalAngle -= rotationSpeed * Time.deltaTime;
                 }
-                else if (Input.GetKey(KeyCode.RightArrow))
+                else if (Input.GetKey(KeyCode.E))
                 {
                     horizontalAngle += rotationSpeed * Time.deltaTime;
                 }

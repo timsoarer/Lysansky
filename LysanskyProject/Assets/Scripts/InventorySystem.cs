@@ -121,6 +121,30 @@ public class InventorySystem : MonoBehaviour
         UpdateHUD();
     }
 
+    public void TakeItem(Item type, ushort count = 1, bool isPurchase = false)
+    {
+        short itemIndex = FindItem(type);
+        if (itemIndex != -1)
+        {
+            if (inventory.items[itemIndex].count < count)
+            {
+                if (!isPurchase)
+                {
+                    inventory.items.RemoveAt(itemIndex);
+                }
+            }
+            else if (inventory.items[itemIndex].count == count)
+            {
+                inventory.items.RemoveAt(itemIndex);
+            }
+            else
+            {
+                inventory.items[itemIndex].count -= count;
+            }
+        }
+        UpdateHUD();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
