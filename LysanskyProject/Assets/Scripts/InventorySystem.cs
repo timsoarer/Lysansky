@@ -27,11 +27,6 @@ public class InventorySystem : MonoBehaviour
     public Inventory inventory = new Inventory();
     public short selected = 0;
 
-    public Item carrot;
-    public Item cabbage;
-    public Item pills;
-
-
     public Image[] hudImages;
     public TextMeshProUGUI[] hudCounts;
     public ushort mainHudPanel;
@@ -148,10 +143,7 @@ public class InventorySystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GiveItem(carrot, 69);
-        GiveItem(pills, 10);
-        GiveItem(cabbage, 42);
-        GiveItem(pills, 24);
+        UpdateHUD();
     }
 
     void Update()

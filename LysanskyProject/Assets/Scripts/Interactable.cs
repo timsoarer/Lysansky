@@ -103,6 +103,10 @@ public class Interactable : MonoBehaviour
                 questSystem.GiveNewQuests(questGiveParams);
             }
         }
+        else if (interactionList[currentInteraction].interactType == InteractType.Shop)
+        {
+            mainCamera.gameObject.GetComponent<Shop>().EnterShop();
+        }
 
         if (destroyOnInteract)
         {
