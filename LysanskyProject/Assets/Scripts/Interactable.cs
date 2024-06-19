@@ -88,6 +88,11 @@ public class Interactable : MonoBehaviour
     }
 
     void Interact() {
+        if (dialogueSystem.inDialogue)
+        {
+            return;
+        }
+        
         if (interactionList[currentInteraction].interactType == InteractType.Teleport)
         {
             player.transform.position = interactionList[currentInteraction].teleportLocation;

@@ -39,7 +39,7 @@ MonoBehaviour:
   - showQuest: 0
     hideIfComplete: 1
     questID: 5
-    addPoints: 1
+    addPoints: 10
   - showQuest: 1
     hideIfComplete: 0
     questID: 6

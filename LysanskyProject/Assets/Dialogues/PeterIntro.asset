@@ -71,3 +71,8 @@ MonoBehaviour:
   continuationDialogue: {fileID: 0}
   teleportPlayer: 1
   teleportPosition: {x: -177.7, y: 39.56, z: -62.1}
+  givenQuests:
+  - showQuest: 1
+    hideIfComplete: 0
+    questID: 0
+    addPoints: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public float Speed = 0.3f;
-    public float JumpForce = 0.6f;
+    public float horizontalDrag = 0.01f;
     public float RotationSpeed = 5f;
     public Transform CameraTransform;
 
@@ -32,7 +32,6 @@ public class Movement : MonoBehaviour
     {
         if (AllowMovement)
         {
-            JumpLogic();
             MoveLogic();
             RotateTowardsCursor();
         }
@@ -50,14 +49,7 @@ public class Movement : MonoBehaviour
         Vector3 movement = cameraDirRotation * Vector3.right * horizontal + cameraDirRotation * Vector3.forward * vertical;
         
         _rb.AddForce(movement * Speed, ForceMode.VelocityChange);
-    }
-
-    private void JumpLogic()
-    {
-        if (_isGrounded && (Input.GetAxis("Jump") > 0))
-        {
-            _rb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
-        }
+        _rb.velocity = _rb.velocity - new Vector3(_rb.velocity.x * horizontalDrag, 0f, _rb.velocity.z * horizontalDrag);
     }
 
     private void RotateTowardsCursor()

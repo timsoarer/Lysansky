@@ -19,7 +19,8 @@ public class DialogueSystem : MonoBehaviour
     public TextMeshProUGUI dialogueText;
     public TextMeshProUGUI nameText;
 
-    bool inDialogue = false;
+    [HideInInspector]
+    public bool inDialogue = false;
     Dialogue currentDialogue;
     ushort dialoguePosition = 0;
 
